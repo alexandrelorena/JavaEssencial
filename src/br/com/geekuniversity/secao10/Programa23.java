@@ -2,7 +2,7 @@ package br.com.geekuniversity.secao10;
 //Pacotes
 
 /*
-- Pacotes servem ara organizar o código fonte do projeto;
+- Pacotes servem para organizar o código fonte do projeto;
 - Pacotes indicam onde determinado arquivo do projeto se encontra;
 - Os nomes de pacotes devem ser em letras minúsculas, sem espaço, sem
 caractere especial, sem acentuação;
@@ -17,7 +17,7 @@ o especificador do pacote;
 public class Programa23 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
