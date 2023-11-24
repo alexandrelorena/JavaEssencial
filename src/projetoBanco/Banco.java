@@ -5,185 +5,183 @@ import java.util.Scanner;
 
 public class Banco {
 
-	static String nome = "Geek Bank";
-	static Scanner teclado = new Scanner(System.in);
-	static ArrayList<Conta> contas;
+    static String nome = "Geek Bank";
+    static Scanner teclado = new Scanner(System.in);
+    static ArrayList<Conta> contas;
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
+        Banco.contas = new ArrayList<Conta>();
+        while (true) {
+            Banco.menu();
+        }
+    }
 
-		Banco.contas = new ArrayList<Conta>();
-		Banco.menu();
+    public static void menu() {
+        int opcao = 0;
+        System.out.println("=================================");
+        System.out.println("=============== ATM ============= ");
+        System.out.println("============ " + Banco.nome + " ===========");
+        System.out.println("Selecione uma opção no menu: ");
+        System.out.println("1 - Criar conta");
+        System.out.println("2 - Efetuar saque");
+        System.out.println("3 - Efetuar depósito");
+        System.out.println("4 - Efetuar transferência");
+        System.out.println("5 - Listar contas");
+        System.out.println("6 - Sair do sistema");
 
-	}
+        try {
+            opcao = Integer.parseInt(Banco.teclado.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Por favor, informe uma opção válida.");
+            Utils.pausar(1);
+            return;
+        }
 
-	public static void menu() {
-		int opcao = 0;
-		System.out.println("=================================");
-		System.out.println("=============== ATM ============= ");
-		System.out.println("============ " + Banco.nome + " ===========");
-		System.out.println("Selecione uma opção no menu: ");
-		System.out.println("1 - Criar conta");
-		System.out.println("2 - Efetuar saque");
-		System.out.println("3 - Efetuar depósito");
-		System.out.println("4 - Efetuar transferência");
-		System.out.println("5 - Listar contas");
-		System.out.println("6 - Sair do sistema");
+        switch (opcao) {
+            case 1:
+                Banco.criarConta();
+                break;
+            case 2:
+                Banco.efetuarSaque();
+                break;
+            case 3:
+                Banco.efetuarDeposito();
+                break;
+            case 4:
+                Banco.efetuarTransferencia();
+                break;
+            case 5:
+                Banco.listarContas();
+                break;
+            case 6:
+                System.out.println("Até a próxima!");
+                Utils.pausar(2);
+                System.exit(0);
+            default:
+                System.out.println("Opção inválida");
+                Utils.pausar(2);
+                break;
+        }
+    }
 
-		try {
-			opcao = Integer.parseInt(Banco.teclado.nextLine());
-		} catch (NumberFormatException e) {
-			System.out.println("Por favor, informe uma opção válida.");
-			Utils.pausar(1);
-			Banco.menu();
-		}
-		switch (opcao) {
-		case 1:
-			Banco.criarConta();
-			break;
-		case 2:
-			Banco.efetuarSaque();
-			break;
-		case 3:
-			Banco.efetuarDeposito();
-			break;
-		case 4:
-			Banco.efetuarTransferencia();
-			break;
-		case 5:
-			Banco.listarContas();
-			break;
-		case 6:
-			System.out.println("Até a próxima!");
-			Utils.pausar(2);
-			System.exit(0);
-		default:
-			System.out.println("Opção inválida");
-			Utils.pausar(2);
-			Banco.menu();
-			break;
-		}
-	}
+    public static void efetuarDeposito() {
+        System.out.println("Informe o número da conta para depósito: ");
+        int numero = Banco.teclado.nextInt();
+        Banco.teclado.nextLine(); // Consumir a quebra de linha
 
-	public static void criarConta() {
-		System.out.println("Criando contInforme os dados do cliente: ");
+        Conta conta = Banco.buscarContaPorNumero(numero);
 
-		System.out.println("Nome do cliente: ");
-		String nome = Banco.teclado.nextLine();
+        if (conta != null) {
+            System.out.println("Informe o valor de depósito: ");
+            Double valor = Banco.teclado.nextDouble();
+            conta.depositar(valor);
+            System.out.println("Depósito efetuado com sucesso!");
+        } else {
+            System.out.println("Não foi encontrada a conta número " + numero);
+        }
+        Utils.pausar(3);
+    }
+    public static void efetuarSaque() {
+        System.out.println("Informe o número da conta: ");
+        int numero = Banco.teclado.nextInt();
+        Banco.teclado.nextLine(); // Consumir a quebra de linha
 
-		System.out.println("E-mail do cliente: ");
-		String email = Banco.teclado.nextLine();
+        Conta conta = Banco.buscarContaPorNumero(numero);
 
-		System.out.println("CPF do cliente: ");
-		String cpf = Banco.teclado.nextLine();
+        if (conta != null) {
+            System.out.println("Informe o valor para saque: ");
+            Double valor = Banco.teclado.nextDouble();
+            conta.sacar(valor);
+            System.out.println("Saque efetuado com sucesso!");
+        } else {
+            System.out.println("Não foi encontrada a conta número " + numero);
+        }
+        Utils.pausar(3);
+    }
 
-		System.out.println("Data de nascimento do cliente: ");
-		String data_nascimento = Banco.teclado.nextLine();
+    public static void criarConta() {
+        System.out.println("Criando conta. Informe os dados do cliente: ");
 
-		Cliente cliente = new Cliente(nome, email, cpf, Utils.stringParaData(data_nascimento));
+        System.out.println("Nome do cliente: ");
+        String nome = Banco.teclado.nextLine();
 
-		Conta conta = new Conta(cliente);
+        System.out.println("E-mail do cliente: ");
+        String email = Banco.teclado.nextLine();
 
-		Banco.contas.add(conta);
+        System.out.println("CPF do cliente: ");
+        String cpf = Banco.teclado.nextLine();
 
-		System.out.println("Conta criada com sucesso!");
-		System.out.println("Dados da conta criada: ");
-		System.out.println(conta);
-		System.out.println();
+        System.out.println("Data de nascimento do cliente: ");
+        String data_nascimento = Banco.teclado.nextLine();
 
-		Utils.pausar(4);
-		Banco.menu();
+        Cliente cliente = new Cliente(nome, email, cpf, Utils.stringParaData(data_nascimento));
 
-	}
+        Conta conta = new Conta(cliente);
 
-	public static void efetuarSaque() {
-		System.out.println("Informe o número da conta: ");
-		int numero = Banco.teclado.nextInt();
+        Banco.contas.add(conta);
 
-		Conta conta = Banco.buscarContaPorNumero(numero);
+        System.out.println("Conta criada com sucesso!");
+        System.out.println("Dados da conta criada: ");
+        System.out.println(conta);
+        System.out.println();
 
-		if (conta != null) {
-			System.out.println("Informe o valor para saque: ");
-			Double valor = Banco.teclado.nextDouble();
-			conta.sacar(valor);
-		} else {
-			System.out.println("Não foi encontrada a conta número " + numero);
-		}
-		Utils.pausar(3);
-		Banco.menu();
-	}
+        Utils.pausar(4);
+    }
 
-	public static void efetuarDeposito() {
-		System.out.println("Informe o número da conta para depósito: ");
-		int numero = Banco.teclado.nextInt();
+    public static void efetuarTransferencia() {
+        System.out.println("Informe a conta para transferência");
+        int numero_o = Banco.teclado.nextInt();
+        Banco.teclado.nextLine(); // Consumir a quebra de linha
 
-		Conta conta = Banco.buscarContaPorNumero(numero);
+        Conta conta_o = Banco.buscarContaPorNumero(numero_o);
 
-		if (conta != null) {
-			System.out.println("Informe o valor de depósito: ");
-			Double valor = Banco.teclado.nextDouble();
-			conta.depositar(valor);
-		} else {
-			System.out.println("Não foi encontrada a conta número " + numero);
-		}
-		Utils.pausar(3);
-		Banco.menu();
-	}
+        if (conta_o != null) {
+            System.out.println("Informe o número da conta destino: ");
+            int numero_d = Banco.teclado.nextInt();
+            Banco.teclado.nextLine(); // Consumir a quebra de linha
 
-	public static void efetuarTransferencia() {
-		System.out.println("Informe a conta para transferência");
-		int numero_o = Banco.teclado.nextInt();
+            Conta conta_d = Banco.buscarContaPorNumero(numero_d);
 
-		Conta conta_o = Banco.buscarContaPorNumero(numero_o);
+            if (conta_d != null) {
+                System.out.println("Informe o valor da transferência: ");
+                Double valor = Banco.teclado.nextDouble();
 
-		if (conta_o != null) {
-			System.out.println("Informe o número da conta destino: ");
-			int numero_d = Banco.teclado.nextInt();
+                conta_o.transferir(conta_d, valor);
+                System.out.println("Transferência efetuada com sucesso!");
+            } else {
+                System.out.println("A conta destino número " + numero_d + " não foi encontrada!");
+            }
+        } else {
+            System.out.println("Não foi encontrada a conta número " + numero_o);
+        }
+        Utils.pausar(3);
+    }
 
-			Conta conta_d = Banco.buscarContaPorNumero(numero_d);
+    public static void listarContas() {
+        if (Banco.contas.size() > 0) {
+            System.out.println("Listagem de contas");
+            System.out.println();
 
-			if (conta_d != null) {
-				System.out.println("Informe o valor da transferência: ");
-				Double valor = Banco.teclado.nextDouble();
+            for (Conta conta : Banco.contas) {
+                System.out.println(conta);
+                System.out.println();
+                Utils.pausar(1);
+            }
+        } else {
+            System.out.println("Não existem contas cadastradas ainda!");
+        }
+        Utils.pausar(3);
+    }
 
-				conta_o.transferir(conta_d, valor);
-			} else {
-				System.out.println("A conta destino número " + numero_d + " não foi encontrada!");
-			}
-
-		} else {
-			System.out.println("Não foi encontrada a conta número " + numero_o);
-		}
-		Utils.pausar(3);
-		Banco.menu();
-	}
-
-	public static void listarContas() {
-		if (Banco.contas.size() > 0) {
-			System.out.println("Listagem de contas");
-			System.out.println();
-
-			for (Conta conta : Banco.contas) {
-				System.out.println(conta);
-				System.out.println();
-				Utils.pausar(1);
-//				Banco.menu();
-			}
-		} else {
-			System.out.println("Não existem contas cadastradas ainda!");
-		}
-		Utils.pausar(3);
-		Banco.menu();
-	}
-
-	private static Conta buscarContaPorNumero(int numero) {
-		Conta c = null;
-		if (Banco.contas.size() > 0) {
-			for (Conta conta : Banco.contas) {
-				if (conta.getNumero() == numero) {
-					c = conta;
-				}
-			}
-		}
-		return c;
-	}
+    private static Conta buscarContaPorNumero(int numero) {
+        Conta c = null;
+        if (Banco.contas.size() > 0) {
+            for (Conta conta : Banco.contas) {
+                if (conta.getNumero() == numero) {
+                    c = conta;
+                }
+            }
+        }
+        return c;
+    }
 }

@@ -19,17 +19,18 @@ public class Mercado {
 	}
 
 	private static void menu() {
-		System.out.println("=========================================");
-		System.out.println("=============== Bem-vindo(a) ============");
-		System.out.println("===============  Geek Shop  =============");
-		System.out.println("=========================================");
-
-		System.out.println("Selecione uma opção abaixo: ");
-		System.out.println("1 - Cadastrar produto");
-		System.out.println("2 - Listar produtos");
-		System.out.println("3 - Comprar produto");
-		System.out.println("4 - Visualizar carrinho");
-		System.out.println("5 - Sair do sistema");
+		System.out.println("==========================================");
+		System.out.println("=============== Bem-vindo(a) ===============");
+		System.out.println("===============  Geek Shop   ================");
+		System.out.println("==========================================");
+		System.out.println();
+		System.out.println("======== Selecione uma opção abaixo:  =========");
+		System.out.println();
+		System.out.println("                            1 - Cadastrar produto");
+		System.out.println("                            2 - Listar produtos");
+		System.out.println("                            3 - Comprar produto");
+		System.out.println("                            4 - Visualizar carrinho");
+		System.out.println("                            5 - Sair do sistema");
 
 		int opcao = 0;
 
